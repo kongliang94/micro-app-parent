@@ -1,10 +1,15 @@
 package com.github.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 /**
  * 自定义异常(CustomException)
  * @author dolyw.com
  * @date 2018/8/30 13:59
  */
+@Data
+@AllArgsConstructor
 public class CustomException extends RuntimeException {
     private Integer code;//状态码
     private String msg;//异常信息

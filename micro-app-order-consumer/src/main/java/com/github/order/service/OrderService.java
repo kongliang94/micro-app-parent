@@ -1,15 +1,22 @@
 package com.github.order.service;
 
-import com.github.common.model.ResultModel;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.order.entity.Order;
 
-@Component
-@FeignClient(value = "order-service-provider")
-public interface OrderService {
+/**
+ * <p>
+ * 订单 服务类
+ * </p>
+ *
+ * @author testjava
+ * @since 2020-03-13
+ */
+public interface OrderService{
 
-    @GetMapping(value ="/order/{id}")
-    public ResultModel getOrderById(@PathVariable("id") Long id);
+    //1 生成订单的方法
+    String createOrders(String courseId, String memberIdByJwtToken);
+
+    boolean getOrderStatus(String courseId, String memberId, Integer payType);
+
+    Order getByOrderNo(String orderNo);
 }
