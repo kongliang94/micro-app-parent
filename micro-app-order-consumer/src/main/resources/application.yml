@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: order-service-consumer
+server:
+  port: 18083
+debug: true
+
+#自定义feign client 超时时间,默认情况下，连接和读取超时分别为10秒和60秒
+#全局设置,连接60s读取10s
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connect-timeout: 60000
+        read-timeout: 10000
+
+#指定每个feign client，example,未验证
+#feign:
+#  client:
+#    config:
+#      OrderWebClient:
+#        connect-timeout: 60000
+#        read-timeout: 200000

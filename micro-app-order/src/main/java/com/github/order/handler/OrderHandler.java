@@ -1,5 +1,6 @@
 package com.github.order.handler;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.order.entity.Order;
 import com.github.order.mapper.OrderMapper;
 import com.github.utils.ResultUtils;
@@ -29,31 +30,17 @@ public class OrderHandler {
     public ServerResponse create(ServerRequest req) throws ServletException, IOException {
 
         var data = req.body(Order.class);
-        var saved = this.orderMapper.insert(data);
+        this.orderMapper.insert(data);
         return created(URI.create("/orders/" + data.getId())).build();
     }
 
     public ServerResponse get(ServerRequest req) {
-
         return ok().body(ResultUtils.success(this.orderMapper.selectById(Long.valueOf(req.pathVariable("id")))));
     }
 
     public ServerResponse update(ServerRequest req) throws ServletException, IOException {
         var data = req.body(Order.class);
-
-      /*  return this.orderMapper.selectById(Long.valueOf(req.pathVariable("id")))
-                .map(
-                        post -> {
-                            post.setTitle(data.getTitle());
-                            post.setContent(data.getContent());
-                            return post;
-                        }
-                )
-                .map(post -> this.posts.save(post))
-                .map(post -> noContent().build())
-                .orElse(notFound().build());*/
-
-      return ok().body(null);
+        return ok().body(orderMapper.updateById(data));
     }
 
     public ServerResponse delete(ServerRequest req) {
@@ -61,12 +48,7 @@ public class OrderHandler {
     }
 
     public ServerResponse selectCount(ServerRequest req){
-
-//        String courseId=req.pathVariable("courseId");
-//        String memberId=req.pathVariable("courseId");
-//        Integer payType=Integer.valueOf(req.pathVariable("payType"));
-
-        return ok().body(1);
+        return ok().body(this.orderMapper.selectCount(null));
     }
 
     public ServerResponse getByNo(ServerRequest request) {
@@ -81,7 +63,16 @@ public class OrderHandler {
         String courseId=request.pathVariable("courseId");
         String memberId=request.pathVariable("memberId");
 
-        return ok().body(true);
+        QueryWrapper<Order> wrapper = new QueryWrapper<>();
+        wrapper.eq("course_id",courseId);
+        wrapper.eq("member_id",memberId);
+        wrapper.eq("status",1);//支付状态 1代表已经支付
+        int count = orderMapper.selectCount(wrapper);
+        if(count>0) { //已经支付
+            return ok().body(true);
+        } else {
+            return ok().body(false);
+        }
     }
 
 }

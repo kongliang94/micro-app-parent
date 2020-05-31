@@ -3,6 +3,8 @@ package com.github.order.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.common.model.ResultModel;
 import com.github.order.entity.Order;
 import com.github.order.entity.PayLog;
@@ -23,7 +25,7 @@ import java.util.Map;
  * @since 2020-03-13
  */
 @RestController
-@RequestMapping("/eduorder/paylog")
+@RequestMapping("/edu_order/pay_log")
 public class PayLogController {
 
     private OrderMapper orderMapper;
@@ -34,13 +36,15 @@ public class PayLogController {
         this.payLogMapper = payLogMapper;
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping("/{id}")
     public ResultModel getById(@PathVariable String id){
-        return ResultUtils.success(payLogMapper.selectById(id));
+        PayLog payLog=payLogMapper.selectById(id);
+        return ResultUtils.success(payLog);
     }
     @GetMapping("")
-    public ResultModel getAll(){
-        return ResultUtils.success(payLogMapper.selectList(null));
+    public ResultModel getAll(Page page,PayLog payLog){
+
+        return ResultUtils.success(payLogMapper.selectPage(page, Wrappers.query(payLog)));
     }
 
     @PutMapping("")

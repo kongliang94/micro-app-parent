@@ -17,7 +17,7 @@ public class FnMvcConfig {
         return route(GET("/orders"), postHandler::all)
                 .andRoute(POST("/orders"), postHandler::create)
                 .andRoute(GET("/orders/{id}"), postHandler::get)
-                .andRoute(GET("/eduorder/order/isBuyCourse/{courseId}/{memberId}"),postHandler::isBuyCourse)
+                .andRoute(GET("/orders/{courseId}/{memberId}"),postHandler::isBuyCourse)
                 .andRoute(GET("/orders/no/{orderNo}"), postHandler::getByNo)
                 .andRoute(PUT("/orders/{id}"), postHandler::update)
                 .andRoute(GET("/orders/count"),postHandler::selectCount)

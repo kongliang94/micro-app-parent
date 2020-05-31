@@ -1,5 +1,6 @@
 package com.github.common;
 
+import com.github.common.model.ApiResultModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 
 //统一返回结果的类
 @Data
-public class R {
+public class R extends ApiResultModel {
 
     @ApiModelProperty(value = "是否成功")
     private Boolean success;
@@ -40,6 +41,15 @@ public class R {
         r.setSuccess(false);
         r.setCode(ResultCode.ERROR);
         r.setMessage("失败");
+        return r;
+    }
+
+    //失败静态方法
+    public static R noAuth() {
+        R r = new R();
+        r.setSuccess(false);
+        r.setCode(ResultCode.ERROR);
+        r.setMessage("无访问权限");
         return r;
     }
 

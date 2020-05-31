@@ -2,16 +2,19 @@ package com.github.ucenter.controller;
 
 
 import com.github.common.R;
+import com.github.common.model.ResultModel;
 import com.github.entity.ordervo.UcenterMemberOrder;
 import com.github.ucenter.entity.UcenterMember;
 import com.github.ucenter.entity.vo.RegisterVo;
 import com.github.ucenter.service.UcenterMemberService;
 import com.github.utils.JwtUtils;
+import com.github.utils.ResultUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,17 +34,17 @@ public class UcenterMemberController {
 
     //登录
     @PostMapping("login")
-    public R loginUser(@RequestBody UcenterMember member) {
+    public ResultModel<Map<String, String>> loginUser(@RequestBody UcenterMember member) {
         //member对象封装手机号和密码
         //调用service方法实现登录
         //返回token值，使用jwt生成
         String token = memberService.login(member);
-        return R.ok().data("token",token);
+        return ResultUtils.success(Map.of("token",token));
     }
 
     //注册
     @PostMapping("register")
-    public R registerUser(@RequestBody RegisterVo registerVo) {
+    public ResultModel registerUser(@RequestBody RegisterVo registerVo) {
         memberService.register(registerVo);
         return R.ok();
     }

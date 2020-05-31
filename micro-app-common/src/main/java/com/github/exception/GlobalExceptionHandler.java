@@ -1,7 +1,7 @@
 package com.github.exception;
 
 
-import com.baomidou.mybatisplus.extension.api.R;
+
 import com.github.common.model.ResultModel;
 import com.github.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
     @ResponseBody //为了返回数据
     public ResultModel error(Exception e) {
         e.printStackTrace();
+        log.error("====服务出现异常[{}]===",e.getMessage());
         return ResultUtils.error(500,"执行了全局异常处理..");
     }
 

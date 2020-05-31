@@ -15,6 +15,7 @@
         <module>micro-app-edu</module>
         <module>micro-app-ucenter</module>
         <module>micro-app-vod</module>
+        <module>micro-app-acl</module>
     </modules>
     <packaging>pom</packaging>
 
